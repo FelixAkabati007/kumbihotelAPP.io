@@ -1,9 +1,11 @@
-import { pgTable, uuid, varchar, text, integer, decimal, jsonb, timestamp, date, pgEnum } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar, text, integer, decimal, jsonb, timestamp, date, pgEnum, index, uniqueIndex } from 'drizzle-orm/pg-core';
 
 export const roleEnum = pgEnum('role', ['guest', 'receptionist', 'manager']);
 export const roomTypeEnum = pgEnum('room_type', ['single', 'double', 'suite', 'deluxe']);
 export const roomStatusEnum = pgEnum('room_status', ['available', 'occupied', 'maintenance']);
 export const bookingStatusEnum = pgEnum('booking_status', ['pending', 'confirmed', 'checked_in', 'checked_out', 'cancelled']);
+export const paymentStatusEnum = pgEnum('payment_status', ['pending', 'paid', 'refunded', 'failed']);
+export const paymentMethodEnum = pgEnum('payment_method', ['cash', 'card', 'mobile_money']);
 
 export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -15,6 +17,23 @@ export const users = pgTable('users', {
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
 });
+
+export const payments = pgTable('payments', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  bookingId: uuid('booking_id').references(() => bookings.id, { onDelete: 'cascade' }).notNull(),
+  amount: decimal('amount', { precision: 10, scale: 2 }).notNull(),
+  currency: varchar('currency', { length: 10 }).default('GHS'),
+  status: paymentStatusEnum('status').default('pending'),
+  method: paymentMethodEnum('method').default('cash'),
+  reference: varchar('reference', { length: 128 }),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+},
+  (table) => ({
+    paymentsBookingIdx: index('payments_booking_idx').on(table.bookingId),
+    paymentsStatusIdx: index('payments_status_idx').on(table.status),
+  })
+);
 
 export const rooms = pgTable('rooms', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -39,6 +58,14 @@ export const bookings = pgTable('bookings', {
   totalAmount: decimal('total_amount', { precision: 10, scale: 2 }).notNull(),
   status: bookingStatusEnum('status').default('pending'),
   specialRequests: text('special_requests'),
+  idempotencyKey: varchar('idempotency_key', { length: 64 }),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
-});
+},
+  (table) => ({
+    bookingsUserIdx: index('bookings_user_idx').on(table.userId),
+    bookingsRoomIdx: index('bookings_room_idx').on(table.roomId),
+    bookingsDateIdx: index('bookings_date_idx').on(table.checkInDate, table.checkOutDate),
+    idempotencyKeyUnique: uniqueIndex('bookings_idem_key_unique').on(table.idempotencyKey),
+  })
+);

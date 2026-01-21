@@ -1,0 +1,27 @@
+name: Nightly Backup
+
+on:
+  schedule:
+    - cron: "0 2 * * *" # 2 AM UTC
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Run pg_dump against Neon
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          export PGPASSWORD=$(echo $DATABASE_URL | sed -E 's/.*:([^@]+)@.*/\1/')
+          PGHOST=$(echo $DATABASE_URL | sed -E 's/.*@([^/]+)\\/.*/\\1/')
+          PGUSER=$(echo $DATABASE_URL | sed -E 's/.*:\\/\\/([^:]+):.*/\\1/')
+          PGDB=$(echo $DATABASE_URL | sed -E 's/.*\\/([^?]+).*/\\1/')
+          pg_dump --no-owner --no-privileges --host=$PGHOST --username=$PGUSER --dbname=$PGDB --format=plain --file=backup.sql
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-backup
+          path: backup.sql

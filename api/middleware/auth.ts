@@ -17,7 +17,15 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     return;
   }
 
-  jwt.verify(token, process.env.JWT_SECRET || 'secret', (err: any, user: any) => {
+  jwt.verify(
+    token,
+    process.env.JWT_SECRET || 'secret',
+    {
+      algorithms: ['HS256'],
+      issuer: process.env.JWT_ISSUER,
+      audience: process.env.JWT_AUDIENCE,
+    } as any,
+    (err: any, user: any) => {
     if (err) {
       res.sendStatus(403);
       return;

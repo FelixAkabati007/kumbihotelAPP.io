@@ -6,6 +6,7 @@ import Rooms from './pages/Rooms';
 import Bookings from './pages/Bookings';
 import AdminDashboard from './pages/AdminDashboard';
 import { useAuthStore } from './store/authStore';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   const { user, logout } = useAuthStore();
@@ -41,8 +42,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/rooms" element={<Rooms />} />
-            <Route path="/bookings" element={<Bookings />} />
-            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute roles={['manager','receptionist']}><AdminDashboard /></ProtectedRoute>} />
           </Routes>
         </main>
         <footer className="bg-gray-800 text-white p-4 text-center">
