@@ -5,6 +5,7 @@ export const authLimiter = rateLimit({
   max: parseInt(process.env.RATE_LIMIT_MAX || "20", 10),
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => process.env.NODE_ENV === "test",
 });
 
 export const bookingLimiter = rateLimit({
@@ -12,4 +13,5 @@ export const bookingLimiter = rateLimit({
   max: parseInt(process.env.RATE_LIMIT_MAX || "10", 10),
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => process.env.NODE_ENV === "test",
 });

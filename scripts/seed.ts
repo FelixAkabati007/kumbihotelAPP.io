@@ -1,21 +1,28 @@
 import "dotenv/config";
-import { db } from "../api/db/index.js";
-import { users, rooms } from "../api/db/schema.js";
+import { db } from "../api/db/index";
+import { users, rooms } from "../api/db/schema";
+import bcrypt from "bcryptjs";
 
 async function run() {
-  const [manager] = await db
+  const passwordHash = await bcrypt.hash("manager123", 10);
+
+  await db
     .insert(users)
     .values({
       email: "manager@kumbisalyheritagehotel.com",
-      passwordHash: "$2a$10$seedseeddummyhashseedseeddummyhashseedseeddum", // placeholder; set manually
+      passwordHash,
       fullName: "Hotel Manager",
       phoneNumber: "+233535975422",
       role: "manager",
     })
-    .onConflictDoNothing()
-    .returning();
+    .onConflictDoNothing();
 
-  const seedRooms = [
+  const seedRooms: {
+    roomNumber: string;
+    roomType: "single" | "double" | "suite" | "deluxe";
+    capacity: number;
+    pricePerNight: string;
+  }[] = [
     {
       roomNumber: "101",
       roomType: "single",

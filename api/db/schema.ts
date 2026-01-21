@@ -6,6 +6,9 @@ export const roomStatusEnum = pgEnum('room_status', ['available', 'occupied', 'm
 export const bookingStatusEnum = pgEnum('booking_status', ['pending', 'confirmed', 'checked_in', 'checked_out', 'cancelled']);
 export const paymentStatusEnum = pgEnum('payment_status', ['pending', 'paid', 'refunded', 'failed']);
 export const paymentMethodEnum = pgEnum('payment_method', ['cash', 'card', 'mobile_money']);
+export const auditEntityEnum = pgEnum('audit_entity', ['booking', 'payment', 'room', 'user']);
+
+export type AuditEntityType = (typeof auditEntityEnum.enumValues)[number];
 
 export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -67,5 +70,20 @@ export const bookings = pgTable('bookings', {
     bookingsRoomIdx: index('bookings_room_idx').on(table.roomId),
     bookingsDateIdx: index('bookings_date_idx').on(table.checkInDate, table.checkOutDate),
     idempotencyKeyUnique: uniqueIndex('bookings_idem_key_unique').on(table.idempotencyKey),
+  })
+);
+
+export const auditLogs = pgTable('audit_logs', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  entityType: auditEntityEnum('entity_type').notNull(),
+  entityId: uuid('entity_id').notNull(),
+  action: varchar('action', { length: 100 }).notNull(),
+  actorUserId: uuid('actor_user_id').references(() => users.id, { onDelete: 'set null' }),
+  details: jsonb('details').$type<Record<string, unknown> | null>().default(null),
+  createdAt: timestamp('created_at').defaultNow(),
+},
+  (table) => ({
+    auditEntityIdx: index('audit_entity_idx').on(table.entityType, table.entityId),
+    auditCreatedIdx: index('audit_created_idx').on(table.createdAt),
   })
 );

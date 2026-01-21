@@ -9,7 +9,7 @@ if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL is missing');
 }
 
-const pool = new Pool({
+export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   max: process.env.PGPOOL_MAX ? parseInt(process.env.PGPOOL_MAX, 10) : undefined,
   idleTimeoutMillis: process.env.PGPOOL_IDLE_TIMEOUT_MS ? parseInt(process.env.PGPOOL_IDLE_TIMEOUT_MS, 10) : undefined,

@@ -20,6 +20,7 @@ export interface PaymentService {
 
 export class DummyPaymentService implements PaymentService {
   async createPayment(req: PaymentRequest): Promise<PaymentResult> {
+    void req;
     return { status: "pending", reference: `DUMMY-${Date.now()}` };
   }
   async refund(reference: string): Promise<PaymentResult> {

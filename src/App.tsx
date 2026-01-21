@@ -16,7 +16,10 @@ function App() {
       <div className="min-h-screen bg-gray-50 flex flex-col">
         <nav className="bg-white shadow-sm p-4">
           <div className="container mx-auto flex justify-between items-center">
-            <Link to="/" className="text-xl font-bold text-yellow-700">Kumbisaly Hotel</Link>
+            <Link to="/" className="flex items-center gap-3">
+              <img src="/logo.png" alt="Kumbisaly Heritage Logo" className="h-12 w-12 rounded-full border-2 border-yellow-600" />
+              <span className="text-xl font-bold text-yellow-700 hidden sm:block">Kumbisaly Heritage</span>
+            </Link>
             <div className="space-x-4">
               <Link to="/rooms" className="text-gray-600 hover:text-gray-900">Rooms</Link>
               {user ? (
