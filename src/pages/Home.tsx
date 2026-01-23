@@ -2,14 +2,17 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center">
-      <div className="w-full bg-cover bg-center h-[500px] flex items-center justify-center text-white relative bg-hero">
-        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+    <div
+      className="flex flex-col items-center w-full bg-cover bg-center relative bg-fixed"
+      style={{ backgroundImage: "url('/front%20view-hotel.jpg')" }}
+    >
+      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+      <div className="w-full min-h-[calc(100vh-80px)] flex items-center justify-center text-white relative z-10">
         <div className="relative z-10 bg-black bg-opacity-70 p-8 rounded-lg text-center max-w-3xl mx-4 border border-yellow-600 shadow-2xl">
           <img
             src="/logo.png"
             alt="Kumbisaly Heritage Logo"
-            className="h-20 w-20 mx-auto mb-4 rounded-full border-2 border-yellow-500"
+            className="h-32 w-32 md:h-40 md:w-40 mx-auto mb-4 rounded-full border-2 border-yellow-500"
           />
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-yellow-500">
             Welcome to Kumbisaly Heritage
@@ -39,8 +42,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="container mx-auto py-12 px-4">
-        <h2 className="text-3xl font-bold text-center mb-8 text-yellow-800">
+      <div className="container mx-auto py-12 px-4 relative z-10">
+        <h2 className="text-3xl font-bold text-center mb-8 text-yellow-500">
           Our Amenities
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

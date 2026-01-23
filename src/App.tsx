@@ -77,18 +77,48 @@ function App() {
             </div>
           </div>
         </nav>
-        <main className="flex-grow container mx-auto p-4">
+        <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/rooms" element={<Rooms />} />
-            <Route path="/rooms/:id" element={<RoomDetails />} />
+            <Route
+              path="/login"
+              element={
+                <div className="container mx-auto p-4">
+                  <Login />
+                </div>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <div className="container mx-auto p-4">
+                  <Register />
+                </div>
+              }
+            />
+            <Route
+              path="/rooms"
+              element={
+                <div className="container mx-auto p-4">
+                  <Rooms />
+                </div>
+              }
+            />
+            <Route
+              path="/rooms/:id"
+              element={
+                <div className="container mx-auto p-4">
+                  <RoomDetails />
+                </div>
+              }
+            />
             <Route
               path="/bookings"
               element={
                 <ProtectedRoute>
-                  <MyBookings />
+                  <div className="container mx-auto p-4">
+                    <MyBookings />
+                  </div>
                 </ProtectedRoute>
               }
             />
@@ -96,7 +126,9 @@ function App() {
               path="/checkout"
               element={
                 <ProtectedRoute>
-                  <Checkout />
+                  <div className="container mx-auto p-4">
+                    <Checkout />
+                  </div>
                 </ProtectedRoute>
               }
             />
@@ -104,7 +136,9 @@ function App() {
               path="/admin"
               element={
                 <ProtectedRoute roles={["manager", "receptionist"]}>
-                  <AdminDashboard />
+                  <div className="container mx-auto p-4">
+                    <AdminDashboard />
+                  </div>
                 </ProtectedRoute>
               }
             />
@@ -112,7 +146,9 @@ function App() {
               path="/admin/rate-plans"
               element={
                 <ProtectedRoute roles={["manager", "receptionist"]}>
-                  <RatePlans />
+                  <div className="container mx-auto p-4">
+                    <RatePlans />
+                  </div>
                 </ProtectedRoute>
               }
             />
@@ -120,7 +156,9 @@ function App() {
               path="/admin/addons"
               element={
                 <ProtectedRoute roles={["manager", "receptionist"]}>
-                  <ManageAddons />
+                  <div className="container mx-auto p-4">
+                    <ManageAddons />
+                  </div>
                 </ProtectedRoute>
               }
             />
@@ -128,7 +166,9 @@ function App() {
               path="/admin/reports"
               element={
                 <ProtectedRoute roles={["manager", "receptionist"]}>
-                  <Reports />
+                  <div className="container mx-auto p-4">
+                    <Reports />
+                  </div>
                 </ProtectedRoute>
               }
             />
