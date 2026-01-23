@@ -32,7 +32,7 @@ function App() {
                 className="h-12 w-12 rounded-full border-2 border-yellow-600"
               />
               <span className="text-xl font-bold text-yellow-700 hidden sm:block">
-                Kumbisaly Heritage
+                Kumbisaly Heritage Hotel & Restaurant
               </span>
             </Link>
             <div className="space-x-4">
@@ -179,7 +179,10 @@ function App() {
           </Routes>
         </main>
         <footer className="bg-gray-800 text-white p-4 text-center">
-          <p>&copy; 2026 Kumbisaly Heritage Hotel. Contact: +233535975422</p>
+          <p>
+            &copy; 2026 Kumbisaly Heritage Hotel & Restaurant. Contact:
+            +233535975422
+          </p>
         </footer>
       </div>
     </Router>

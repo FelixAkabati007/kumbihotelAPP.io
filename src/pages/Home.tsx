@@ -11,7 +11,7 @@ export default function Home() {
             className="h-40 w-40 md:h-56 md:w-56 mx-auto mb-4 rounded-full border-2 border-yellow-500"
           />
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-yellow-500">
-            Welcome to Kumbisaly Heritage
+            Welcome to Kumbisaly Heritage Hotel & Restaurant
           </h1>
           <div className="flex items-center justify-center gap-2 mb-6 text-gray-200">
             <img
