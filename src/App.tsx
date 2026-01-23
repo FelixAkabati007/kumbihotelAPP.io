@@ -18,8 +18,12 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50 flex flex-col">
-        <nav className="bg-white shadow-sm p-4">
+      <div
+        className="min-h-screen flex flex-col bg-cover bg-[center_65%] relative bg-fixed"
+        style={{ backgroundImage: "url('/front%20view-hotel.jpg')" }}
+      >
+        <div className="fixed inset-0 bg-black bg-opacity-40 pointer-events-none z-0"></div>
+        <nav className="bg-white/90 backdrop-blur-sm shadow-sm p-4 relative z-10">
           <div className="container mx-auto flex justify-between items-center">
             <Link to="/" className="flex items-center gap-3">
               <img
@@ -77,7 +81,7 @@ function App() {
             </div>
           </div>
         </nav>
-        <main className="flex-grow">
+        <main className="flex-grow relative z-10">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route

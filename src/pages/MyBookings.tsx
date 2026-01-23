@@ -32,7 +32,10 @@ export default function MyBookings() {
       {error && <p className="text-red-600 mb-3">{error}</p>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {bookings.map((b) => (
-          <div key={b.id} className="bg-white rounded shadow p-4">
+          <div
+            key={b.id}
+            className="bg-white/60 backdrop-blur-sm rounded shadow p-4"
+          >
             <p className="font-semibold">Booking ID: {b.id}</p>
             <p>Room: {b.roomId}</p>
             <p>Check-in: {new Date(b.checkInDate).toLocaleDateString()}</p>
@@ -46,4 +49,3 @@ export default function MyBookings() {
     </div>
   );
 }
-

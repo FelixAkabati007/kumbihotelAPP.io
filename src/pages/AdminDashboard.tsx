@@ -46,7 +46,7 @@ export default function AdminDashboard() {
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded shadow p-4">
+        <div className="bg-white/60 backdrop-blur-sm rounded shadow p-4">
           <h2 className="text-xl font-bold mb-3">Bookings</h2>
           <ul className="space-y-2">
             {bookings.map((b) => (
@@ -69,7 +69,7 @@ export default function AdminDashboard() {
             ))}
           </ul>
         </div>
-        <div className="bg-white rounded shadow p-4">
+        <div className="bg-white/60 backdrop-blur-sm rounded shadow p-4">
           <h2 className="text-xl font-bold mb-3">Rooms</h2>
           <ul className="space-y-2">
             {rooms.map((r) => (
@@ -85,7 +85,7 @@ export default function AdminDashboard() {
             ))}
           </ul>
         </div>
-        <div className="bg-white rounded shadow p-4">
+        <div className="bg-white/60 backdrop-blur-sm rounded shadow p-4">
           <h2 className="text-xl font-bold mb-3">Management</h2>
           <ul className="space-y-2">
             <li>

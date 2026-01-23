@@ -116,7 +116,7 @@ export default function Rooms() {
           <p className="text-gray-500 text-lg">Loading rooms...</p>
         </div>
       ) : rooms.length === 0 ? (
-        <div className="text-center py-10 border rounded bg-gray-50">
+        <div className="text-center py-10 border rounded bg-white/60 backdrop-blur-sm">
           <p className="text-gray-500 text-lg">
             No rooms found matching your criteria.
           </p>
@@ -126,7 +126,7 @@ export default function Rooms() {
           {rooms.map((r) => (
             <div
               key={r.id}
-              className="border rounded-lg p-5 shadow-md hover:shadow-lg transition-shadow bg-white"
+              className="border rounded-lg p-5 shadow-md hover:shadow-lg transition-shadow bg-white/60 backdrop-blur-sm"
             >
               <div className="flex justify-between items-start mb-2">
                 <h2 className="text-xl font-bold text-gray-800">
@@ -163,7 +163,7 @@ export default function Rooms() {
                 disabled={r.status !== "available"}
                 className={`w-full py-2 px-4 rounded font-bold text-white transition-colors ${
                   r.status === "available"
-                    ? "bg-blue-600 hover:bg-blue-700"
+                    ? "bg-yellow-600 hover:bg-yellow-700"
                     : "bg-gray-400 cursor-not-allowed"
                 }`}
               >

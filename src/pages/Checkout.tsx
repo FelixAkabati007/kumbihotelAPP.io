@@ -132,14 +132,14 @@ export default function Checkout() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded shadow my-8">
+    <div className="max-w-4xl mx-auto p-6 bg-white/60 backdrop-blur-sm rounded shadow my-8">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Checkout</h1>
 
       {loadingRoom && <p className="text-gray-500">Loading room details...</p>}
       {roomError && <p className="text-red-500">{roomError}</p>}
 
       {room && (
-        <div className="bg-gray-50 p-4 rounded mb-6 border">
+        <div className="bg-white/50 p-4 rounded mb-6 border">
           <h2 className="text-xl font-bold text-gray-700">Room Details</h2>
           <div className="grid grid-cols-2 gap-4 mt-2">
             <div>
@@ -169,7 +169,12 @@ export default function Checkout() {
           <h3 className="text-lg font-semibold">Booking Dates</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label htmlFor="check-in-date" className="block text-sm font-medium mb-1">Check-in</label>
+              <label
+                htmlFor="check-in-date"
+                className="block text-sm font-medium mb-1"
+              >
+                Check-in
+              </label>
               <input
                 id="check-in-date"
                 className="w-full border rounded p-2"
@@ -250,7 +255,7 @@ export default function Checkout() {
           )}
         </div>
 
-        <div className="bg-gray-50 p-6 rounded border h-fit">
+        <div className="bg-white/50 p-6 rounded border h-fit">
           <h3 className="text-xl font-bold mb-4">Payment Summary</h3>
           <div className="space-y-2 mb-4">
             <div className="flex justify-between">
@@ -277,7 +282,7 @@ export default function Checkout() {
             className={`w-full py-3 rounded text-white font-bold text-lg ${
               isSubmitting || !checkInDate || !checkOutDate || nights <= 0
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
+                : "bg-yellow-600 hover:bg-yellow-700"
             }`}
           >
             {isSubmitting ? "Processing..." : "Complete Booking"}
