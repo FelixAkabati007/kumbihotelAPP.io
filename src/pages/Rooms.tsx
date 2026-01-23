@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 type Room = {
   id: string;
@@ -19,6 +20,7 @@ export default function Rooms() {
   const [status, setStatus] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const controller = new AbortController();
@@ -33,7 +35,8 @@ export default function Rooms() {
     fetch(`/api/rooms?${params.toString()}`, { signal })
       .then((r) => {
         if (!r.ok) {
-          throw new Error("Failed to fetch rooms");
+          console.error("Fetch rooms failed:", r.status, r.statusText);
+          throw new Error(`Failed to fetch rooms: ${r.status} ${r.statusText}`);
         }
         return r.json();
       })
@@ -127,9 +130,9 @@ export default function Rooms() {
             >
               <div className="flex justify-between items-start mb-2">
                 <h2 className="text-xl font-bold text-gray-800">
-                  <a href={`/rooms/${r.id}`} className="hover:underline">
+                  <Link to={`/rooms/${r.id}`} className="hover:underline">
                     Room {r.roomNumber}
-                  </a>
+                  </Link>
                 </h2>
                 <span
                   className={`text-xs font-semibold px-2 py-1 rounded-full uppercase ${getStatusColor(r.status)}`}
@@ -137,7 +140,7 @@ export default function Rooms() {
                   {r.status}
                 </span>
               </div>
-              <div className="space-y-1 text-gray-600">
+              <div className="space-y-1 text-gray-600 mb-4">
                 <p className="flex justify-between">
                   <span>Type:</span>
                   <span className="font-medium capitalize">{r.roomType}</span>
@@ -155,6 +158,17 @@ export default function Rooms() {
                   </span>
                 </p>
               </div>
+              <button
+                onClick={() => navigate(`/checkout?roomId=${r.id}`)}
+                disabled={r.status !== "available"}
+                className={`w-full py-2 px-4 rounded font-bold text-white transition-colors ${
+                  r.status === "available"
+                    ? "bg-blue-600 hover:bg-blue-700"
+                    : "bg-gray-400 cursor-not-allowed"
+                }`}
+              >
+                {r.status === "available" ? "Book Now" : "Unavailable"}
+              </button>
             </div>
           ))}
         </div>

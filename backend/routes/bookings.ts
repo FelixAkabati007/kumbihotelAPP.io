@@ -294,7 +294,10 @@ router.post(
         return;
       }
 
-      if (booking.status && ["checked_in", "checked_out"].includes(booking.status)) {
+      if (
+        booking.status &&
+        ["checked_in", "checked_out"].includes(booking.status as string)
+      ) {
         res.status(400).json({
           error:
             "Cannot cancel a booking that has already started or completed",

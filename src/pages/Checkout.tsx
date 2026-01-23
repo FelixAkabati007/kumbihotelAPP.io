@@ -115,7 +115,7 @@ export default function Checkout() {
       const json = await res.json();
       if (res.ok) {
         alert("Checkout complete. Invoice issued.");
-        navigate("/"); // Redirect to home or bookings page
+        navigate("/bookings");
       } else {
         alert(json.error || "Checkout failed");
       }
@@ -169,19 +169,25 @@ export default function Checkout() {
           <h3 className="text-lg font-semibold">Booking Dates</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Check-in</label>
+              <label htmlFor="check-in-date" className="block text-sm font-medium mb-1">Check-in</label>
               <input
+                id="check-in-date"
                 className="w-full border rounded p-2"
                 type="date"
+                min={new Date().toISOString().split("T")[0]}
                 value={checkInDate}
                 onChange={(e) => setCheckInDate(e.target.value)}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">
+              <label
+                htmlFor="check-out-date"
+                className="block text-sm font-medium mb-1"
+              >
                 Check-out
               </label>
               <input
+                id="check-out-date"
                 className="w-full border rounded p-2"
                 type="date"
                 value={checkOutDate}
