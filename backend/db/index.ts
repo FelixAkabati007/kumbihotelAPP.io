@@ -6,8 +6,13 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 if (!process.env.DATABASE_URL) {
+  console.error("DATABASE_URL is not set in environment variables");
   throw new Error("DATABASE_URL is missing");
 }
+
+console.log(
+  `Initializing DB connection (SSL: ${process.env.NODE_ENV === "production"})`,
+);
 
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

@@ -33,10 +33,11 @@ export default function Rooms() {
     setError(null);
 
     fetch(`/api/rooms?${params.toString()}`, { signal })
-      .then((r) => {
+      .then(async (r) => {
         if (!r.ok) {
-          console.error("Fetch rooms failed:", r.status, r.statusText);
-          throw new Error(`Failed to fetch rooms: ${r.status} ${r.statusText}`);
+          const text = await r.text();
+          console.error("Fetch rooms failed:", r.status, r.statusText, text);
+          throw new Error(`Failed to fetch rooms: ${r.status} ${text}`);
         }
         return r.json();
       })
