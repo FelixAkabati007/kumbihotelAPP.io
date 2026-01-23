@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { db } from "../backend/db/index";
-import { users, rooms } from "../backend/db/schema";
+import { users, rooms, settings } from "../backend/db/schema";
 import bcrypt from "bcryptjs";
 
 async function run() {
@@ -48,6 +48,16 @@ async function run() {
       .values({ ...r, amenities: ["wifi", "ac"] })
       .onConflictDoNothing();
   }
+
+  await db
+    .insert(settings)
+    .values({
+      key: "contact_number",
+      value: "+233535975422",
+      description: "Main hotel contact number displayed in footer",
+    })
+    .onConflictDoNothing();
+
   console.log("Seed complete");
 }
 

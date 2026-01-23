@@ -200,6 +200,16 @@ export const addons = pgTable("addons", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Settings
+export const settings = pgTable("settings", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  key: varchar("key", { length: 100 }).unique().notNull(),
+  value: text("value").notNull(),
+  description: text("description"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 export const bookingAddons = pgTable(
   "booking_addons",
   {

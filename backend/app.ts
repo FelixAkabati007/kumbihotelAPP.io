@@ -19,6 +19,7 @@ import ratePlanRoutes from "./routes/ratePlans";
 import addonRoutes from "./routes/addons";
 import invoiceRoutes from "./routes/invoices";
 import checkoutRoutes from "./routes/checkout";
+import settingsRoutes from "./routes/settings";
 import { initSentry } from "./sentry";
 
 interface RequestWithId extends Request {
@@ -73,6 +74,7 @@ app.use("/api/rate-plans", ratePlanRoutes);
 app.use("/api/addons", addonRoutes);
 app.use("/api/invoices", invoiceRoutes);
 app.use("/api/checkout", checkoutRoutes);
+app.use("/api/settings", settingsRoutes);
 app.use("/api/audit-logs", auditLogRoutes);
 app.use("/api/users", userRoutes);
 

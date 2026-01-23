@@ -112,6 +112,14 @@ export default function AdminDashboard() {
                 Reports
               </Link>
             </li>
+            <li>
+              <Link
+                className="text-yellow-700 hover:underline"
+                to="/admin/settings"
+              >
+                Settings
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

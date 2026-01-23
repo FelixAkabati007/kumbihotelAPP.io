@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -10,11 +11,29 @@ import AdminDashboard from "./pages/AdminDashboard";
 import RatePlans from "./pages/admin/RatePlans";
 import ManageAddons from "./pages/admin/Addons";
 import Reports from "./pages/admin/Reports";
+import Settings from "./pages/admin/Settings";
 import { useAuthStore } from "./store/authStore";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const { user, logout } = useAuthStore();
+  const [contactNumber, setContactNumber] = useState("+233535975422");
+
+  useEffect(() => {
+    const fetchSettings = () => {
+      fetch("/api/settings/contact_number")
+        .then((r) => {
+          if (r.ok) return r.json();
+          throw new Error("Not found");
+        })
+        .then((data) => setContactNumber(data.value))
+        .catch(() => {});
+    };
+
+    fetchSettings();
+    window.addEventListener("settings-updated", fetchSettings);
+    return () => window.removeEventListener("settings-updated", fetchSettings);
+  }, []);
 
   return (
     <Router>
@@ -176,12 +195,22 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/admin/settings"
+              element={
+                <ProtectedRoute roles={["manager"]}>
+                  <div className="container mx-auto p-4">
+                    <Settings />
+                  </div>
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </main>
         <footer className="bg-gray-800 text-white p-4 text-center">
           <p>
-            &copy; 2026 Kumbisaly Heritage Hotel & Restaurant. Contact:
-            +233535975422
+            © 2026 Kumbisaly Heritage Hotel &amp; Restaurant. Contact:{" "}
+            {contactNumber}
           </p>
         </footer>
       </div>
