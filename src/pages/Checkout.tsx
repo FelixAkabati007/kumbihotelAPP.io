@@ -263,6 +263,7 @@ export default function Checkout() {
           </div>
 
           <button
+            type="button"
             onClick={onCheckout}
             disabled={
               isSubmitting || !checkInDate || !checkOutDate || nights <= 0

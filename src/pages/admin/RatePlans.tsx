@@ -267,6 +267,7 @@ export default function RatePlans() {
                   <p className="text-sm text-gray-500">{p.description}</p>
                 </div>
                 <button
+                  type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     deletePlan(p.id);
