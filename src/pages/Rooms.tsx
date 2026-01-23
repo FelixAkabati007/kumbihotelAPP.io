@@ -127,7 +127,9 @@ export default function Rooms() {
             >
               <div className="flex justify-between items-start mb-2">
                 <h2 className="text-xl font-bold text-gray-800">
-                  Room {r.roomNumber}
+                  <a href={`/rooms/${r.id}`} className="hover:underline">
+                    Room {r.roomNumber}
+                  </a>
                 </h2>
                 <span
                   className={`text-xs font-semibold px-2 py-1 rounded-full uppercase ${getStatusColor(r.status)}`}

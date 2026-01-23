@@ -15,6 +15,10 @@ import { authLimiter, bookingLimiter } from "./middleware/rateLimit";
 import paymentRoutes from "./routes/payments";
 import auditLogRoutes from "./routes/auditLogs";
 import userRoutes from "./routes/users";
+import ratePlanRoutes from "./routes/ratePlans";
+import addonRoutes from "./routes/addons";
+import invoiceRoutes from "./routes/invoices";
+import checkoutRoutes from "./routes/checkout";
 import { initSentry } from "./sentry";
 
 interface RequestWithId extends Request {
@@ -32,7 +36,7 @@ app.use(requestId);
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN?.split(",") || "*",
-  })
+  }),
 );
 app.use(helmet());
 app.use(express.json({ limit: "10mb" }));
@@ -42,7 +46,7 @@ app.use((req: RequestWithId, res: Response, next: NextFunction) => {
   const start = Date.now();
   logger.info(
     { req: { method: req.method, url: req.url }, requestId: req.requestId },
-    "request_start"
+    "request_start",
   );
   res.on("finish", () => {
     const duration = Date.now() - start;
@@ -52,7 +56,7 @@ app.use((req: RequestWithId, res: Response, next: NextFunction) => {
         duration,
         requestId: req.requestId,
       },
-      "request_end"
+      "request_end",
     );
   });
   next();
@@ -65,6 +69,10 @@ app.use("/api/rooms", roomRoutes);
 app.use("/api/bookings", bookingLimiter, bookingRoutes);
 app.use("/api/auth", authLimiter, authRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/rate-plans", ratePlanRoutes);
+app.use("/api/addons", addonRoutes);
+app.use("/api/invoices", invoiceRoutes);
+app.use("/api/checkout", checkoutRoutes);
 app.use("/api/audit-logs", auditLogRoutes);
 app.use("/api/users", userRoutes);
 
@@ -102,7 +110,7 @@ app.use(
       error: "Server internal error",
       requestId: req.requestId,
     });
-  }
+  },
 );
 
 /**
