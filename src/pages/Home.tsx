@@ -47,21 +47,21 @@ export default function Home() {
           Our Amenities
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+          <div className="bg-white/60 p-6 rounded-lg shadow-md text-center backdrop-blur-sm">
             <h3 className="text-xl font-bold mb-2">Luxury Rooms</h3>
-            <p className="text-gray-600">
+            <p className="text-gray-800 font-medium">
               Spacious and elegant rooms designed for your comfort.
             </p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+          <div className="bg-white/60 p-6 rounded-lg shadow-md text-center backdrop-blur-sm">
             <h3 className="text-xl font-bold mb-2">24/7 Service</h3>
-            <p className="text-gray-600">
+            <p className="text-gray-800 font-medium">
               Our staff is always available to assist you.
             </p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+          <div className="bg-white/60 p-6 rounded-lg shadow-md text-center backdrop-blur-sm">
             <h3 className="text-xl font-bold mb-2">Serene Environment</h3>
-            <p className="text-gray-600">
+            <p className="text-gray-800 font-medium">
               Relax in our peaceful and beautiful surroundings.
             </p>
           </div>
