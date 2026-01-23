@@ -1,7 +1,7 @@
 import request from "supertest";
-import app from "../../api/app";
-import { db } from "../../api/db/index";
-import { users } from "../../api/db/schema";
+import app from "../../backend/app";
+import { db } from "../../backend/db/index";
+import { users } from "../../backend/db/schema";
 import { eq } from "drizzle-orm";
 import { describe, it, expect, beforeAll } from "vitest";
 

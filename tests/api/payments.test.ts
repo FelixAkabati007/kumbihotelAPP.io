@@ -1,7 +1,7 @@
 import request from "supertest";
-import app from "../../api/app";
-import { db } from "../../api/db/index";
-import { users, rooms, bookings } from "../../api/db/schema";
+import app from "../../backend/app";
+import { db } from "../../backend/db/index";
+import { users, rooms, bookings } from "../../backend/db/schema";
 import { describe, it, expect, beforeAll } from "vitest";
 import bcrypt from "bcryptjs";
 

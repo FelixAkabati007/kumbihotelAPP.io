@@ -1,7 +1,7 @@
 import request from "supertest";
 import express from "express";
 import { describe, it, expect } from "vitest";
-import { authLimiter } from "../../../api/middleware/rateLimit";
+import { authLimiter } from "../../../backend/middleware/rateLimit";
 
 describe("Rate Limit Middleware", () => {
   const app = express();

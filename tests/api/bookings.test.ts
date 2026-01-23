@@ -1,7 +1,7 @@
 import request from "supertest";
-import app from "../../api/app";
-import { db } from "../../api/db/index";
-import { users, rooms, bookings } from "../../api/db/schema";
+import app from "../../backend/app";
+import { db } from "../../backend/db/index";
+import { users, rooms, bookings } from "../../backend/db/schema";
 import { eq } from "drizzle-orm";
 import { describe, it, expect, beforeAll } from "vitest";
 import bcrypt from "bcryptjs";
@@ -353,22 +353,29 @@ describe("Bookings Routes", () => {
     const checkIn = new Date();
     const checkOut = new Date();
     checkOut.setDate(checkOut.getDate() + 2);
-    
-    const [booking] = await db.insert(bookings).values({
-      userId: (await db.select().from(users).where(eq(users.email, guestEmail))).pop()!.id,
-      roomId,
-      checkInDate: checkIn.toISOString().split("T")[0],
-      checkOutDate: checkOut.toISOString().split("T")[0],
-      totalAmount: "200.00",
-      status: "checked_in",
-    }).returning();
+
+    const [booking] = await db
+      .insert(bookings)
+      .values({
+        userId: (
+          await db.select().from(users).where(eq(users.email, guestEmail))
+        ).pop()!.id,
+        roomId,
+        checkInDate: checkIn.toISOString().split("T")[0],
+        checkOutDate: checkOut.toISOString().split("T")[0],
+        totalAmount: "200.00",
+        status: "checked_in",
+      })
+      .returning();
 
     const res = await request(app)
       .post(`/api/bookings/${booking.id}/cancel`)
       .set("Authorization", `Bearer ${guestToken}`);
-    
+
     expect(res.status).toBe(400);
-    expect(res.body.error).toMatch(/Cannot cancel a booking that has already started/i);
+    expect(res.body.error).toMatch(
+      /Cannot cancel a booking that has already started/i,
+    );
   });
 
   it("should deny guest access to list all bookings", async () => {

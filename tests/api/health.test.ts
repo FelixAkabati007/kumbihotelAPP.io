@@ -1,5 +1,5 @@
 import request from "supertest";
-import app from "../../api/app";
+import app from "../../backend/app";
 import { describe, it, expect } from "vitest";
 
 describe("health", () => {

@@ -1,6 +1,6 @@
 import "dotenv/config";
-import { db } from "../api/db/index";
-import { users, rooms } from "../api/db/schema";
+import { db } from "../backend/db/index";
+import { users, rooms } from "../backend/db/schema";
 import bcrypt from "bcryptjs";
 
 async function run() {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { DummyPaymentService } from "../../../api/services/PaymentService";
+import { DummyPaymentService } from "../../../backend/services/PaymentService";
 
 describe("DummyPaymentService", () => {
   const service = new DummyPaymentService();

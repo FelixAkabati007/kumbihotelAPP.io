@@ -1,7 +1,7 @@
 import request from "supertest";
-import app from "../../api/app";
-import { db } from "../../api/db/index";
-import { users } from "../../api/db/schema";
+import app from "../../backend/app";
+import { db } from "../../backend/db/index";
+import { users } from "../../backend/db/schema";
 import { describe, it, expect, beforeAll } from "vitest";
 import bcrypt from "bcryptjs";
 
@@ -102,13 +102,13 @@ describe("AuditLogs Routes", () => {
     const logsRes = await request(app)
       .get("/api/audit-logs")
       .set("Authorization", `Bearer ${managerToken}`);
-    
+
     if (logsRes.body.data.length > 0) {
       const entityId = logsRes.body.data[0].entityId;
       const res = await request(app)
         .get(`/api/audit-logs?entityId=${entityId}`)
         .set("Authorization", `Bearer ${managerToken}`);
-      
+
       expect(res.status).toBe(200);
       expect(Array.isArray(res.body.data)).toBe(true);
       expect(res.body.data.length).toBeGreaterThan(0);
@@ -121,13 +121,15 @@ describe("AuditLogs Routes", () => {
     const logsRes = await request(app)
       .get("/api/audit-logs")
       .set("Authorization", `Bearer ${managerToken}`);
-    
+
     if (logsRes.body.data.length > 0) {
       const log = logsRes.body.data[0];
       const res = await request(app)
-        .get(`/api/audit-logs?entityType=${log.entityType}&entityId=${log.entityId}`)
+        .get(
+          `/api/audit-logs?entityType=${log.entityType}&entityId=${log.entityId}`,
+        )
         .set("Authorization", `Bearer ${managerToken}`);
-      
+
       expect(res.status).toBe(200);
       expect(Array.isArray(res.body.data)).toBe(true);
       expect(res.body.data.length).toBeGreaterThan(0);

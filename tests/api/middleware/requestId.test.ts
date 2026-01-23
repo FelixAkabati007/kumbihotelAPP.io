@@ -1,7 +1,7 @@
 import request from "supertest";
 import express, { type Request } from "express";
 import { describe, it, expect } from "vitest";
-import { requestId } from "../../../api/middleware/requestId";
+import { requestId } from "../../../backend/middleware/requestId";
 
 describe("requestId Middleware", () => {
   const app = express();
