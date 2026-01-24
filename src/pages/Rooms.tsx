@@ -33,20 +33,12 @@ export default function Rooms() {
     setError(null);
 
     fetch(`/api/rooms?${params.toString()}`, { signal })
-      .then(async (r) => {
-        if (!r.ok) {
-          const text = await r.text();
-          console.error("Fetch rooms failed:", r.status, r.statusText, text);
-          throw new Error(`Failed to fetch rooms: ${r.status} ${text}`);
-        }
-        return r.json();
-      })
+      .then((r) => (r.ok ? r.json() : null))
       .then((json: Room[] | RoomResponse) => {
-        setRooms(Array.isArray(json) ? json : json.data);
+        setRooms(Array.isArray(json) ? json : json?.data || []);
       })
       .catch((err) => {
         if (err.name !== "AbortError") {
-          console.error("Error fetching rooms:", err);
           setError("Failed to load rooms. Please try again later.");
         }
       })

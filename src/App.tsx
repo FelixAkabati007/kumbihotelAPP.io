@@ -22,15 +22,14 @@ function App() {
   useEffect(() => {
     const fetchSettings = () => {
       fetch("/api/settings/contact_number")
-        .then(async (r) => {
-          if (r.ok) return r.json();
-          const text = await r.text();
-          console.error("Failed to fetch settings:", r.status, text);
-          throw new Error("Not found");
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => {
+          if (data?.value) {
+            setContactNumber(data.value);
+          }
         })
-        .then((data) => setContactNumber(data.value))
-        .catch((err) => {
-          console.error("Error in fetchSettings:", err);
+        .catch(() => {
+          // keep default contact number without logging error
         });
     };
 

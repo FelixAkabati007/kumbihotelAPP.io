@@ -27,16 +27,26 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/rooms?limit=3")
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw new Error("Failed to fetch");
-      })
+    const controller = new AbortController();
+    const { signal } = controller;
+    fetch("/api/rooms?limit=3", { signal })
+      .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        setFeaturedRooms(Array.isArray(data) ? data : data.data || []);
+        if (!signal.aborted) {
+          setFeaturedRooms(Array.isArray(data) ? data : data?.data || []);
+        }
       })
-      .catch((err) => console.error(err))
-      .finally(() => setLoading(false));
+      .catch(() => {
+        if (!signal.aborted) {
+          setFeaturedRooms([]);
+        }
+      })
+      .finally(() => {
+        if (!signal.aborted) {
+          setLoading(false);
+        }
+      });
+    return () => controller.abort();
   }, []);
 
   return (
