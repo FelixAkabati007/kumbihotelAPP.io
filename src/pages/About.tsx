@@ -3,20 +3,24 @@ import { Star, MapPin, Heart, Users } from "lucide-react";
 export default function About() {
   return (
     <div className="container mx-auto p-4 relative z-10">
-      <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
-        {/* Header Section */}
-        <div className="relative h-64 md:h-80 bg-[url('/front-view-hotel.jpg')] bg-cover bg-center flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/20" />
-          <div className="relative z-10 text-center px-4">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-2 drop-shadow-lg">
-              Akwaaba!
-            </h1>
-            <p className="text-xl md:text-2xl text-yellow-100 font-medium">
-              Welcome to Kumbisaly Heritage Hotel
-            </p>
-          </div>
+      {/* Header Section (no white background) */}
+      <div className="relative h-64 md:h-80 flex items-center justify-center">
+        <img
+          src="/b0c3e83098f99ec5c59add18045d68b3.png"
+          alt=""
+          className="absolute inset-0 w-full h-full object-contain opacity-80 pointer-events-none select-none"
+        />
+        <div className="relative z-10 text-center px-4 mt-12 md:mt-16">
+          <h1 className="text-2xl md:text-4xl font-bold text-white mb-1 drop-shadow-lg">
+            Akwaaba!
+          </h1>
+          <p className="text-sm md:text-lg text-yellow-100 font-medium">
+            Welcome to Kumbisaly Heritage Hotel
+          </p>
         </div>
+      </div>
 
+      <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
         {/* Content Section */}
         <div className="p-8 md:p-12">
           {/* Introduction */}
