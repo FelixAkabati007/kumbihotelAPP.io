@@ -54,7 +54,7 @@ router.get("/", async (req: Request, res: Response) => {
       error &&
       typeof error === "object" &&
       "code" in error &&
-      (error as any).code === "42P01"
+      (error as { code: string }).code === "42P01"
     ) {
       console.error(
         "CRITICAL: 'rooms' table missing. Run 'npm run db:push' to create tables.",

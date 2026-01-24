@@ -22,7 +22,7 @@ router.get("/", async (_req: Request, res: Response) => {
       error &&
       typeof error === "object" &&
       "code" in error &&
-      (error as any).code === "42P01"
+      (error as { code: string }).code === "42P01"
     ) {
       console.error(
         "CRITICAL: 'settings' table missing. Run 'npm run db:push' to create tables.",
@@ -53,7 +53,7 @@ router.get("/:key", async (req: Request, res: Response) => {
       error &&
       typeof error === "object" &&
       "code" in error &&
-      (error as any).code === "42P01"
+      (error as { code: string }).code === "42P01"
     ) {
       console.error(
         "CRITICAL: 'settings' table missing. Run 'npm run db:push' to create tables.",
