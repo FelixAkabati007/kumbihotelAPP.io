@@ -40,38 +40,42 @@ export default function Login() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white/60 backdrop-blur-sm rounded shadow">
-      <h1 className="text-2xl font-bold mb-4">Login</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label className="block mb-1">Email</label>
-          <input
-            className="w-full border rounded p-2"
-            type="email"
-            {...register("email")}
-          />
-          {errors.email && (
-            <p className="text-red-600 text-sm">{errors.email.message}</p>
-          )}
-        </div>
-        <div>
-          <label className="block mb-1">Password</label>
-          <input
-            className="w-full border rounded p-2"
-            type="password"
-            {...register("password")}
-          />
-          {errors.password && (
-            <p className="text-red-600 text-sm">{errors.password.message}</p>
-          )}
-        </div>
-        <button
-          disabled={isSubmitting}
-          className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
-        >
-          {isSubmitting ? "Signing in..." : "Sign In"}
-        </button>
-      </form>
+    <div className="flex items-center justify-center min-h-[calc(100vh-140px)]">
+      <div className="w-full max-w-md p-8 bg-white/60 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20">
+        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Login</h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <div>
+            <label className="block mb-1 text-sm font-medium text-gray-700">Email</label>
+            <input
+              className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition-all"
+              type="email"
+              placeholder="Enter your email"
+              {...register("email")}
+            />
+            {errors.email && (
+              <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
+            )}
+          </div>
+          <div>
+            <label className="block mb-1 text-sm font-medium text-gray-700">Password</label>
+            <input
+              className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition-all"
+              type="password"
+              placeholder="Enter your password"
+              {...register("password")}
+            />
+            {errors.password && (
+              <p className="text-red-600 text-sm mt-1">{errors.password.message}</p>
+            )}
+          </div>
+          <button
+            disabled={isSubmitting}
+            className="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition duration-300 transform hover:scale-[1.02]"
+          >
+            {isSubmitting ? "Signing in..." : "Sign In"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
