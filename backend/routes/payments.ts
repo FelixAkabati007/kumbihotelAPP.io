@@ -17,7 +17,7 @@ const router = Router();
 router.get(
   "/",
   authenticateToken,
-  requireRole(["manager", "receptionist"]),
+  requireRole(["admin", "manager", "receptionist"]),
   async (_req: Request, res: Response) => {
     try {
       const list = await db.select().from(payments);
@@ -36,7 +36,7 @@ router.get(
 router.post(
   "/",
   authenticateToken,
-  requireRole(["manager", "receptionist"]),
+  requireRole(["admin", "manager", "receptionist"]),
   async (req: Request, res: Response) => {
     try {
       const parsed = paymentCreateSchema.safeParse(req.body);
@@ -79,7 +79,7 @@ router.post(
 router.put(
   "/:id/status",
   authenticateToken,
-  requireRole(["manager", "receptionist"]),
+  requireRole(["admin", "manager", "receptionist"]),
   async (req: Request, res: Response) => {
     try {
       const parsed = paymentStatusUpdateSchema.safeParse(req.body);

@@ -14,7 +14,10 @@ type Room = {
 };
 
 export default function AdminDashboard() {
-  const token = useAuthStore((s) => s.token);
+  const { token, user } = useAuthStore((s) => ({
+    token: s.token,
+    user: s.user,
+  }));
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [rooms, setRooms] = useState<Room[]>([]);
 
@@ -112,14 +115,16 @@ export default function AdminDashboard() {
                 Reports
               </Link>
             </li>
-            <li>
-              <Link
-                className="text-yellow-700 hover:underline"
-                to="/admin/settings"
-              >
-                Settings
-              </Link>
-            </li>
+            {["admin", "manager"].includes(user?.role || "") && (
+              <li>
+                <Link
+                  className="text-yellow-700 hover:underline"
+                  to="/admin/settings"
+                >
+                  Settings
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>

@@ -6,7 +6,7 @@ import { authenticateToken, requireRole, type AuthRequest } from "../middleware/
 
 const router = Router();
 
-router.get("/", authenticateToken, requireRole(["manager", "receptionist"]), async (_req: Request, res: Response) => {
+router.get("/", authenticateToken, requireRole(["admin", "manager", "receptionist"]), async (_req: Request, res: Response) => {
   try {
     const rows = await db.select().from(invoices);
     res.json(rows);

@@ -13,7 +13,7 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 
-export const roleEnum = pgEnum("role", ["guest", "receptionist", "manager"]);
+export const roleEnum = pgEnum("role", ["guest", "receptionist", "manager", "admin"]);
 export const roomTypeEnum = pgEnum("room_type", [
   "single",
   "double",

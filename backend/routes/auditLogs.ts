@@ -9,7 +9,7 @@ const router = Router();
 router.get(
   "/",
   authenticateToken,
-  requireRole(["manager"]),
+  requireRole(["admin", "manager"]),
   async (req: Request, res: Response) => {
     console.log("Accessing Audit Logs as Manager");
     try {

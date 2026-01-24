@@ -21,7 +21,7 @@ const userUpdateSchema = z.object({
 router.get(
   "/",
   authenticateToken,
-  requireRole(["manager"]),
+  requireRole(["admin", "manager"]),
   async (req: Request, res: Response) => {
     try {
       const allUsers = await db
@@ -56,7 +56,10 @@ router.get("/:id", authenticateToken, async (req: Request, res: Response) => {
     }
 
     // Allow managers to view anyone, or users to view themselves
-    if (requestUser.role !== "manager" && requestUser.id !== req.params.id) {
+    if (
+      !["admin", "manager"].includes(requestUser.role) &&
+      requestUser.id !== req.params.id
+    ) {
       res.status(403).json({ error: "Forbidden" });
       return;
     }
@@ -99,7 +102,10 @@ router.put("/:id", authenticateToken, async (req: Request, res: Response) => {
       return;
     }
 
-    if (requestUser.role !== "manager" && requestUser.id !== req.params.id) {
+    if (
+      !["admin", "manager"].includes(requestUser.role) &&
+      requestUser.id !== req.params.id
+    ) {
       res.status(403).json({ error: "Forbidden" });
       return;
     }

@@ -24,7 +24,7 @@ router.get("/", async (_req: Request, res: Response) => {
 router.post(
   "/",
   authenticateToken,
-  requireRole(["manager", "receptionist"]),
+  requireRole(["admin", "manager", "receptionist"]),
   async (req: Request, res: Response) => {
     try {
       const parsed = addonCreateSchema.safeParse(req.body);
@@ -58,7 +58,7 @@ router.post(
 router.put(
   "/:id",
   authenticateToken,
-  requireRole(["manager", "receptionist"]),
+  requireRole(["admin", "manager", "receptionist"]),
   async (req: Request, res: Response) => {
     try {
       const parsed = addonCreateSchema.safeParse(req.body);
@@ -97,7 +97,7 @@ router.put(
 router.delete(
   "/:id",
   authenticateToken,
-  requireRole(["manager"]),
+  requireRole(["admin", "manager"]),
   async (req: Request, res: Response) => {
     try {
       await db.delete(addons).where(eq(addons.id, req.params.id));

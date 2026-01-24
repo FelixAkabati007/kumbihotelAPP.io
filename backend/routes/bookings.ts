@@ -23,7 +23,7 @@ const router = Router();
 router.get(
   "/",
   authenticateToken,
-  requireRole(["manager", "receptionist"]),
+  requireRole(["admin", "manager", "receptionist"]),
   async (req: Request, res: Response) => {
     try {
       const page = req.query.page
@@ -216,7 +216,7 @@ router.post("/", authenticateToken, async (req: Request, res: Response) => {
 router.put(
   "/:id/status",
   authenticateToken,
-  requireRole(["manager", "receptionist"]),
+  requireRole(["admin", "manager", "receptionist"]),
   async (req: Request, res: Response) => {
     try {
       const parsed = bookingStatusSchema.safeParse(req.body);

@@ -87,18 +87,19 @@ router.get("/", async (req: Request, res: Response) => {
     res.json(payload);
   } catch (error: unknown) {
     console.error("Rooms fetch error:", error);
-    
+
     // Fallback to mock data if DB fails
     console.warn("Database connection failed. Returning mock data.");
-    const payload = { 
-      page: 1, 
-      limit: 20, 
-      data: MOCK_ROOMS.filter(r => 
-        (!req.query.roomType || r.roomType === req.query.roomType) &&
-        (!req.query.status || r.status === req.query.status)
-      ) 
+    const payload = {
+      page: 1,
+      limit: 20,
+      data: MOCK_ROOMS.filter(
+        (r) =>
+          (!req.query.roomType || r.roomType === req.query.roomType) &&
+          (!req.query.status || r.status === req.query.status),
+      ),
     };
-    
+
     res.json(payload);
   }
 });
@@ -130,7 +131,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 router.post(
   "/",
   authenticateToken,
-  requireRole(["manager", "receptionist"]),
+  requireRole(["admin", "manager", "receptionist"]),
   async (req: Request, res: Response) => {
     try {
       const parsed = roomCreateSchema.safeParse(req.body);
@@ -164,7 +165,7 @@ router.post(
 router.put(
   "/:id",
   authenticateToken,
-  requireRole(["manager", "receptionist"]),
+  requireRole(["admin", "manager", "receptionist"]),
   async (req: Request, res: Response) => {
     try {
       const parsed = roomUpdateSchema.safeParse(req.body);
@@ -200,7 +201,7 @@ router.put(
 router.delete(
   "/:id",
   authenticateToken,
-  requireRole(["manager"]),
+  requireRole(["admin", "manager"]),
   async (req: Request, res: Response) => {
     try {
       const [deletedRoom] = await db

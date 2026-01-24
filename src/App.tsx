@@ -73,7 +73,7 @@ function App() {
                   <Link to="/bookings" className={navFx}>
                     My Bookings
                   </Link>
-                  {["manager", "receptionist"].includes(user.role) && (
+                  {["admin", "manager", "receptionist"].includes(user.role) && (
                     <Link to="/admin" className={navFx}>
                       Admin
                     </Link>
@@ -154,7 +154,7 @@ function App() {
             <Route
               path="/admin"
               element={
-                <ProtectedRoute roles={["manager", "receptionist"]}>
+                <ProtectedRoute roles={["admin", "manager", "receptionist"]}>
                   <div className="container mx-auto p-4">
                     <AdminDashboard />
                   </div>
@@ -164,7 +164,7 @@ function App() {
             <Route
               path="/admin/rate-plans"
               element={
-                <ProtectedRoute roles={["manager", "receptionist"]}>
+                <ProtectedRoute roles={["admin", "manager", "receptionist"]}>
                   <div className="container mx-auto p-4">
                     <RatePlans />
                   </div>
@@ -174,7 +174,7 @@ function App() {
             <Route
               path="/admin/addons"
               element={
-                <ProtectedRoute roles={["manager", "receptionist"]}>
+                <ProtectedRoute roles={["admin", "manager", "receptionist"]}>
                   <div className="container mx-auto p-4">
                     <ManageAddons />
                   </div>
@@ -184,7 +184,7 @@ function App() {
             <Route
               path="/admin/reports"
               element={
-                <ProtectedRoute roles={["manager", "receptionist"]}>
+                <ProtectedRoute roles={["admin", "manager", "receptionist"]}>
                   <div className="container mx-auto p-4">
                     <Reports />
                   </div>
@@ -194,7 +194,7 @@ function App() {
             <Route
               path="/admin/settings"
               element={
-                <ProtectedRoute roles={["manager"]}>
+                <ProtectedRoute roles={["admin", "manager"]}>
                   <div className="container mx-auto p-4">
                     <Settings />
                   </div>

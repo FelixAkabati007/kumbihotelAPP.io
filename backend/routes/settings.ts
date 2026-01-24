@@ -68,19 +68,17 @@ router.get("/:key", async (req: Request, res: Response) => {
       return;
     }
 
-    res
-      .status(500)
-      .json({
-        error: "Internal server error",
-        details: error instanceof Error ? error.message : "Unknown error",
-      });
+    res.status(500).json({
+      error: "Internal server error",
+      details: error instanceof Error ? error.message : "Unknown error",
+    });
   }
 });
 
 router.put(
   "/:key",
   authenticateToken,
-  requireRole(["manager"]),
+  requireRole(["admin", "manager"]),
   async (req: Request, res: Response) => {
     try {
       const parsed = settingUpdateSchema.safeParse(req.body);

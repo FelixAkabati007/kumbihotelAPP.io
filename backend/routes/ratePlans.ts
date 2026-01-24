@@ -17,7 +17,7 @@ const router = Router();
 router.get(
   "/",
   authenticateToken,
-  requireRole(["manager"]),
+  requireRole(["admin", "manager"]),
   async (_req: Request, res: Response) => {
     try {
       const plans = await db.select().from(ratePlans);
@@ -36,7 +36,7 @@ router.get(
 router.post(
   "/",
   authenticateToken,
-  requireRole(["manager"]),
+  requireRole(["admin", "manager"]),
   async (req: Request, res: Response) => {
     try {
       const parsed = ratePlanCreateSchema.safeParse(req.body);
@@ -77,7 +77,7 @@ router.post(
 router.put(
   "/:id",
   authenticateToken,
-  requireRole(["manager"]),
+  requireRole(["admin", "manager"]),
   async (req: Request, res: Response) => {
     try {
       const parsed = ratePlanCreateSchema.safeParse(req.body);
@@ -115,7 +115,7 @@ router.put(
 router.delete(
   "/:id",
   authenticateToken,
-  requireRole(["manager"]),
+  requireRole(["admin", "manager"]),
   async (req: Request, res: Response) => {
     try {
       const [existing] = await db
@@ -144,7 +144,7 @@ router.delete(
 router.get(
   "/:id/seasons",
   authenticateToken,
-  requireRole(["manager"]),
+  requireRole(["admin", "manager"]),
   async (req: Request, res: Response) => {
     try {
       const seasons = await db
@@ -166,7 +166,7 @@ router.get(
 router.post(
   "/:id/seasons",
   authenticateToken,
-  requireRole(["manager"]),
+  requireRole(["admin", "manager"]),
   async (req: Request, res: Response) => {
     try {
       const parsed = ratePlanSeasonCreateSchema.safeParse({
