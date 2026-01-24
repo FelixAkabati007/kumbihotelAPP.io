@@ -164,7 +164,7 @@ export default function Home() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {featuredRooms.map((room) => (
+              {featuredRooms.map((room, index) => (
                 <div
                   key={room.id}
                   className="bg-black/40 backdrop-blur-md rounded-xl shadow-lg overflow-hidden border border-white/10 group hover:shadow-2xl transition-all duration-300 hover:bg-black/50"
@@ -172,11 +172,14 @@ export default function Home() {
                   <div className="h-48 bg-gray-700 relative overflow-hidden">
                     <img
                       src={
-                        room.images?.[0] ||
-                        `/room-placeholder-${(parseInt(room.roomNumber) % 3) + 1}.jpg`
+                        [
+                          "/standard-room-6-view-2.jpg",
+                          "/standard-room-5-view-3.jpg",
+                          "/standard-room-5-view-1.jpg",
+                        ][index % 3]
                       }
                       alt={`Room ${room.roomNumber}`}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-500"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src =
                           "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&q=80&w=800";
@@ -293,9 +296,16 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="flex-1 h-64 bg-white/10 rounded-lg flex items-center justify-center border border-white/10">
-            {/* Placeholder for Map */}
-            <p className="text-gray-400">Google Map Integration</p>
+          <div className="flex-1 h-64 bg-white/10 rounded-lg border border-white/10 overflow-hidden">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.039660419615!2d-1.736580126491017!3d7.1214021159296985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfda532df5a85d41%3A0x8d2f6e8926a18c60!2sKUMBISALY%20HERITAGE%20HOTEL%20AND%20RESTAURANT!5e0!3m2!1sen!2sgh!4v1769227373317!5m2!1sen!2sgh"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </div>
       </div>
