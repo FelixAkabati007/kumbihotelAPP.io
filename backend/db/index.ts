@@ -23,7 +23,8 @@ export const pool = new Pool({
     ? parseInt(process.env.PGPOOL_IDLE_TIMEOUT_MS, 10)
     : undefined,
   ssl:
-    process.env.NODE_ENV === "production"
+    process.env.NODE_ENV === "production" ||
+    process.env.DATABASE_URL?.includes("neon.tech")
       ? { rejectUnauthorized: false }
       : undefined,
 });

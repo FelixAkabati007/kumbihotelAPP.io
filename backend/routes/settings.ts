@@ -17,7 +17,17 @@ router.get("/", async (_req: Request, res: Response) => {
     const list = await db.select().from(settings);
     res.json(list);
   } catch (error: unknown) {
-    console.error(error);
+    console.error("Settings fetch error:", error);
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as any).code === "42P01"
+    ) {
+      console.error(
+        "CRITICAL: 'settings' table missing. Run 'npm run db:push' to create tables.",
+      );
+    }
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
     res
@@ -38,7 +48,17 @@ router.get("/:key", async (req: Request, res: Response) => {
     }
     res.json(item);
   } catch (error: unknown) {
-    console.error(error);
+    console.error("Settings fetch error:", error);
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as any).code === "42P01"
+    ) {
+      console.error(
+        "CRITICAL: 'settings' table missing. Run 'npm run db:push' to create tables.",
+      );
+    }
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
     res
@@ -60,7 +80,7 @@ router.put(
           .json({ error: "Invalid payload", details: parsed.error.flatten() });
         return;
       }
-      
+
       // Upsert logic
       const [existing] = await db
         .select()

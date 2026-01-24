@@ -49,7 +49,17 @@ router.get("/", async (req: Request, res: Response) => {
     res.setHeader("ETag", etag);
     res.json(payload);
   } catch (error: unknown) {
-    console.error(error);
+    console.error("Rooms fetch error:", error);
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as any).code === "42P01"
+    ) {
+      console.error(
+        "CRITICAL: 'rooms' table missing. Run 'npm run db:push' to create tables.",
+      );
+    }
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
     res
