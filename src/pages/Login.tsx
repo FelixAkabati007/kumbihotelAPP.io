@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "../store/authStore";
@@ -17,6 +19,7 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
+  const [showPassword, setShowPassword] = useState(false);
   const setAuth = useAuthStore((s) => s.setAuth);
   const navigate = useNavigate();
   const location = useLocation();
@@ -70,12 +73,22 @@ export default function Login() {
             <label className="block mb-1 text-sm font-medium text-gray-700">
               Password
             </label>
-            <input
-              className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition-all"
-              type="password"
-              placeholder="Enter your password"
-              {...register("password")}
-            />
+            <div className="relative">
+              <input
+                className="w-full border border-gray-300 rounded-xl p-3 pr-10 focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition-all"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                {...register("password")}
+              />
+              <button
+                type="button"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                onClick={() => setShowPassword((v) => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
             {errors.password && (
               <p className="text-red-600 text-sm mt-1">
                 {errors.password.message}

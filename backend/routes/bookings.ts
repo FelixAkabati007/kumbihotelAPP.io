@@ -1,7 +1,7 @@
 import { Router, type Request, type Response } from "express";
 import { db } from "../db/index";
-import { bookings, auditLogs, rooms } from "../db/schema";
-import { eq, and } from "drizzle-orm";
+import { bookings, auditLogs, rooms, users } from "../db/schema";
+import { eq, and, getTableColumns } from "drizzle-orm";
 import {
   authenticateToken,
   requireRole,
@@ -53,8 +53,12 @@ router.get(
       const where = status ? eq(bookings.status, status) : undefined;
 
       const list = await db
-        .select()
+        .select({
+          ...getTableColumns(bookings),
+          userName: users.fullName,
+        })
         .from(bookings)
+        .leftJoin(users, eq(bookings.userId, users.id))
         .where(where)
         .limit(limit)
         .offset(offset);

@@ -7,6 +7,11 @@ type Booking = {
   id: string;
   status: string;
   totalAmount: string;
+  userId?: string;
+  userEmail?: string;
+  userName?: string;
+  customerName?: string;
+  guestName?: string;
 };
 type Room = {
   id: string;
@@ -37,6 +42,7 @@ const BookingItem = memo(function BookingItem({
   booking,
   role,
   onUpdateStatus,
+  userLabel,
 }: {
   booking: Booking;
   role: string;
@@ -44,6 +50,7 @@ const BookingItem = memo(function BookingItem({
     id: string,
     status: "confirmed" | "checked_in" | "checked_out" | "cancelled",
   ) => void;
+  userLabel: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -54,6 +61,7 @@ const BookingItem = memo(function BookingItem({
     >
       <div>
         <p className="font-semibold text-gray-800">ID: {booking.id}</p>
+        <p className="text-sm text-gray-600">User: {userLabel}</p>
         <p className="text-sm text-gray-600">
           Status:{" "}
           <span
@@ -138,14 +146,33 @@ const BookingItem = memo(function BookingItem({
 });
 
 const RoomItem = memo(function RoomItem({ room }: { room: Room }) {
+  const s = (room.status || "").toLowerCase();
+  const isMaint = s.includes("maint") || s.includes("out_of_service");
+  const isOccupied = s.includes("occup");
+  const isUnavailable =
+    s.includes("unavail") || s.includes("blocked") || s.includes("reserved");
+  const color = isOccupied
+    ? "text-green-600"
+    : isMaint
+      ? "text-red-600"
+      : isUnavailable
+        ? "text-yellow-600"
+        : "text-gray-800";
+  const containerExtra = isMaint
+    ? "bg-red-50 border-red-200"
+    : isUnavailable
+      ? "bg-yellow-50 border-yellow-200"
+      : "";
   return (
     <li
       key={room.id}
-      className="flex justify-between items-center border rounded p-2"
+      className={`flex justify-between items-center border rounded p-2 ${containerExtra}`}
     >
       <div>
         <p>Room {room.roomNumber}</p>
-        <p>Status: {room.status}</p>
+        <p className="text-sm text-gray-600">
+          Status: <span className={`font-medium ${color}`}>{room.status}</span>
+        </p>
       </div>
     </li>
   );
@@ -190,6 +217,9 @@ export default function AdminDashboard() {
   const [logs, setLogs] = useState<AuditLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [usersMap, setUsersMap] = useState<
+    Record<string, { fullName?: string; email?: string }>
+  >({});
 
   useEffect(() => {
     setLoading(true);
@@ -215,6 +245,23 @@ export default function AdminDashboard() {
           if (lRes.ok) {
             const lJson = await lRes.json();
             if (active) setLogs(lJson.data || lJson);
+          }
+        }
+        if (role === "admin" || role === "manager" || role === "receptionist") {
+          const uRes = await fetch("/api/users", { headers });
+          if (uRes.ok) {
+            const uJson = await uRes.json();
+            const list = (uJson.data || uJson) as Array<{
+              id: string;
+              fullName?: string;
+              email?: string;
+            }>;
+            const map: Record<string, { fullName?: string; email?: string }> =
+              {};
+            for (const u of list) {
+              if (u.id) map[u.id] = { fullName: u.fullName, email: u.email };
+            }
+            if (active) setUsersMap(map);
           }
         }
       } catch {
@@ -243,6 +290,17 @@ export default function AdminDashboard() {
     setBookings((prev) =>
       prev.map((b) => (b.id === id ? { ...b, status } : b)),
     );
+  };
+  const getBookingUserLabel = (b: Booking): string => {
+    if (b.userName && b.userName.trim()) return b.userName;
+    if (b.customerName && b.customerName.trim()) return b.customerName;
+    if (b.guestName && b.guestName.trim()) return b.guestName;
+    if (b.userEmail && b.userEmail.trim()) return b.userEmail;
+    if (b.userId && usersMap[b.userId]) {
+      const entry = usersMap[b.userId];
+      return entry.fullName || entry.email || b.userId;
+    }
+    return "Guest";
   };
 
   return (
@@ -291,6 +349,7 @@ export default function AdminDashboard() {
                   booking={b}
                   role={role}
                   onUpdateStatus={updateBookingStatus}
+                  userLabel={getBookingUserLabel(b)}
                 />
               ))}
             </ul>
