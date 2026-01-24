@@ -19,6 +19,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   const { user, logout } = useAuthStore();
   const [contactNumber, setContactNumber] = useState("+233535975422");
+  const [mobileOpen, setMobileOpen] = useState(false);
   const navFx =
     "relative inline-block group text-gray-600 hover:text-gray-900 transition-transform duration-300 ease-out hover:scale-[1.03] " +
     "before:content-[''] before:absolute before:left-0 before:-bottom-1 before:h-[2px] before:w-0 before:bg-gradient-to-r before:from-yellow-500 before:via-orange-500 before:to-pink-500 before:transition-all before:duration-500 group-hover:before:w-full";
@@ -58,7 +59,7 @@ function App() {
                 Kumbisaly Heritage Hotel & Restaurant
               </span>
             </Link>
-            <div className="space-x-4">
+            <div className="hidden md:flex space-x-4">
               <Link to="/" className={navFx}>
                 Home
               </Link>
@@ -93,8 +94,134 @@ function App() {
                 </>
               )}
             </div>
+            <button
+              aria-label="Open menu"
+              className="md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+              onClick={() => setMobileOpen(true)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                className="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
           </div>
         </nav>
+        {mobileOpen && (
+          <div className="fixed inset-0 z-50" role="dialog" aria-modal="true">
+            <div
+              className="absolute inset-0 bg-black/50"
+              onClick={() => setMobileOpen(false)}
+            />
+            <div className="absolute left-0 top-0 h-full w-4/5 max-w-xs bg-white shadow-xl p-6 flex flex-col">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-lg font-semibold text-yellow-700">
+                  Menu
+                </span>
+                <button
+                  aria-label="Close menu"
+                  className="inline-flex items-center justify-center p-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    className="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div className="flex flex-col gap-4">
+                <Link
+                  to="/"
+                  className={navFx}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Home
+                </Link>
+                <Link
+                  to="/about"
+                  className={navFx}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  About
+                </Link>
+                <Link
+                  to="/rooms"
+                  className={navFx}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Rooms
+                </Link>
+                {user ? (
+                  <>
+                    <Link
+                      to="/bookings"
+                      className={navFx}
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      My Bookings
+                    </Link>
+                    {["admin", "manager", "receptionist"].includes(
+                      user.role,
+                    ) && (
+                      <Link
+                        to="/admin"
+                        className={navFx}
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        Admin
+                      </Link>
+                    )}
+                    <button
+                      onClick={() => {
+                        setMobileOpen(false);
+                        logout();
+                      }}
+                      className={navFx}
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className={navFx}
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/register"
+                      className={navFx}
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      Register
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
         <main className="flex-grow relative z-10">
           <Routes>
             <Route path="/" element={<Home />} />

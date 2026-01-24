@@ -20,7 +20,7 @@ export default function About() {
         </div>
       </div>
 
-      <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
+      <div className="bg-white/60 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
         {/* Content Section */}
         <div className="p-8 md:p-12">
           {/* Introduction */}
