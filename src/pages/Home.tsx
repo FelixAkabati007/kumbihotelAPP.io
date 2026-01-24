@@ -50,12 +50,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div
-      className="flex flex-col items-center w-full min-h-screen bg-fixed bg-cover bg-center relative"
-      style={{
-        backgroundImage: "url('/front-view-hotel.jpg')",
-      }}
-    >
+    <div className="flex flex-col items-center w-full min-h-screen bg-fixed bg-cover bg-center relative bg-hero">
       {/* Global Dark Overlay for contrast */}
       <div className="absolute inset-0 bg-black/50 fixed z-0" />
 
@@ -312,6 +307,7 @@ export default function Home() {
               width="100%"
               height="100%"
               style={{ border: 0 }}
+              title="Kumbisaly Location Map"
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
