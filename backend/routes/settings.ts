@@ -12,27 +12,35 @@ const settingUpdateSchema = z.object({
   description: z.string().optional(),
 });
 
+// Mock data for fallback
+const MOCK_SETTINGS = [
+  {
+    key: "site_name",
+    value: "Kumbisaly Heritage Hotel",
+    description: "The name of the hotel",
+  },
+  {
+    key: "contact_email",
+    value: "info@kumbisaly.com",
+    description: "Contact email address",
+  },
+  {
+    key: "contact_number",
+    value: "+233 53 597 5422",
+    description: "Contact phone number",
+  },
+];
+
 router.get("/", async (_req: Request, res: Response) => {
   try {
     const list = await db.select().from(settings);
     res.json(list);
   } catch (error: unknown) {
     console.error("Settings fetch error:", error);
-    if (
-      error &&
-      typeof error === "object" &&
-      "code" in error &&
-      (error as { code: string }).code === "42P01"
-    ) {
-      console.error(
-        "CRITICAL: 'settings' table missing. Run 'npm run db:push' to create tables.",
-      );
-    }
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error";
-    res
-      .status(500)
-      .json({ error: "Internal server error", details: errorMessage });
+
+    // Fallback to mock data if DB fails
+    console.warn("Database connection failed. Returning mock settings.");
+    res.json(MOCK_SETTINGS);
   }
 });
 
@@ -49,21 +57,23 @@ router.get("/:key", async (req: Request, res: Response) => {
     res.json(item);
   } catch (error: unknown) {
     console.error("Settings fetch error:", error);
-    if (
-      error &&
-      typeof error === "object" &&
-      "code" in error &&
-      (error as { code: string }).code === "42P01"
-    ) {
-      console.error(
-        "CRITICAL: 'settings' table missing. Run 'npm run db:push' to create tables.",
-      );
+
+    // Fallback to mock data if DB fails
+    console.warn(
+      `Database connection failed. Returning mock setting for key: ${req.params.key}`,
+    );
+    const mockItem = MOCK_SETTINGS.find((s) => s.key === req.params.key);
+    if (mockItem) {
+      res.json(mockItem);
+      return;
     }
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error";
+
     res
       .status(500)
-      .json({ error: "Internal server error", details: errorMessage });
+      .json({
+        error: "Internal server error",
+        details: error instanceof Error ? error.message : "Unknown error",
+      });
   }
 });
 
