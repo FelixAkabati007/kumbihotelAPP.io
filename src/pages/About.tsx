@@ -5,7 +5,7 @@ export default function About() {
     <div className="container mx-auto p-4 relative z-10">
       <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
         {/* Header Section */}
-        <div className="relative h-64 md:h-80 bg-yellow-600 flex items-center justify-center">
+        <div className="relative h-64 md:h-80 bg-[url('/front-view-hotel.jpg')] bg-cover bg-center flex items-center justify-center">
           <div className="absolute inset-0 bg-black/20" />
           <div className="relative z-10 text-center px-4">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-2 drop-shadow-lg">
@@ -25,10 +25,12 @@ export default function About() {
               A Taste of Ghanaian Hospitality
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed">
-              Nestled in the heart of Offinso Abofour in the Ashanti Region, Kumbisaly Heritage Hotel 
-              is more than just a place to sleep—it's a home away from home. We blend modern luxury 
-              with the timeless warmth of Ghanaian culture, offering every guest a truly royal experience. 
-              From our architecture to our cuisine, the spirit of "Akwaaba" resonates in every corner.
+              Nestled in the heart of Offinso Abofour in the Ashanti Region,
+              Kumbisaly Heritage Hotel is more than just a place to sleep—it's a
+              home away from home. We blend modern luxury with the timeless
+              warmth of Ghanaian culture, offering every guest a truly royal
+              experience. From our architecture to our cuisine, the spirit of
+              "Akwaaba" resonates in every corner.
             </p>
           </div>
 
@@ -40,25 +42,31 @@ export default function About() {
                   <Heart size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">Our Heritage</h3>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">
+                    Our Heritage
+                  </h3>
                   <p className="text-gray-600">
-                    Rooted in the rich traditions of the Ashanti Kingdom, we take pride in sharing 
-                    our culture. Our hotel is designed to reflect the elegance and history of our 
-                    people, providing a serene escape from the bustle of daily life.
+                    Rooted in the rich traditions of the Ashanti Kingdom, we
+                    take pride in sharing our culture. Our hotel is designed to
+                    reflect the elegance and history of our people, providing a
+                    serene escape from the bustle of daily life.
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start gap-4">
                 <div className="p-3 bg-yellow-100 rounded-full text-yellow-700">
                   <Users size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">Family & Community</h3>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">
+                    Family & Community
+                  </h3>
                   <p className="text-gray-600">
-                    At Kumbisaly, you are family. Our dedicated staff is committed to treating 
-                    every guest with the utmost respect and care, ensuring your stay is as 
-                    comfortable as it is memorable.
+                    At Kumbisaly, you are family. Our dedicated staff is
+                    committed to treating every guest with the utmost respect
+                    and care, ensuring your stay is as comfortable as it is
+                    memorable.
                   </p>
                 </div>
               </div>
@@ -70,11 +78,14 @@ export default function About() {
                   <Star size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">Local Delicacies</h3>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">
+                    Local Delicacies
+                  </h3>
                   <p className="text-gray-600">
-                    Experience the authentic taste of Ghana at our restaurant. From spicy Jollof 
-                    Rice to rich Fufu and Light Soup, our chefs prepare local favorites alongside 
-                    continental dishes to satisfy every palate.
+                    Experience the authentic taste of Ghana at our restaurant.
+                    From spicy Jollof Rice to rich Fufu and Light Soup, our
+                    chefs prepare local favorites alongside continental dishes
+                    to satisfy every palate.
                   </p>
                 </div>
               </div>
@@ -84,11 +95,14 @@ export default function About() {
                   <MapPin size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">Prime Location</h3>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">
+                    Prime Location
+                  </h3>
                   <p className="text-gray-600">
-                    Conveniently located in Offinso Abofour, we are the perfect gateway to exploring 
-                    the Ashanti Region. Whether you're here for business or leisure, our tranquil 
-                    environment is the perfect base.
+                    Conveniently located in Offinso Abofour, we are the perfect
+                    gateway to exploring the Ashanti Region. Whether you're here
+                    for business or leisure, our tranquil environment is the
+                    perfect base.
                   </p>
                 </div>
               </div>
@@ -98,7 +112,8 @@ export default function About() {
           {/* Quote Section */}
           <div className="bg-yellow-50 rounded-2xl p-8 text-center border-l-4 border-yellow-600">
             <blockquote className="text-xl italic text-gray-700 mb-4">
-              "The stranger who returns does not forget the hospitality of the host."
+              "The stranger who returns does not forget the hospitality of the
+              host."
             </blockquote>
             <cite className="text-yellow-800 font-bold not-italic">
               — A Ghanaian Proverb

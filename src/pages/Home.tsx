@@ -27,26 +27,27 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-    fetch("/api/rooms?limit=3", { signal })
+    let isMounted = true;
+    fetch("/api/rooms?limit=3")
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (!signal.aborted) {
+        if (isMounted) {
           setFeaturedRooms(Array.isArray(data) ? data : data?.data || []);
         }
       })
       .catch(() => {
-        if (!signal.aborted) {
+        if (isMounted) {
           setFeaturedRooms([]);
         }
       })
       .finally(() => {
-        if (!signal.aborted) {
+        if (isMounted) {
           setLoading(false);
         }
       });
-    return () => controller.abort();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
@@ -306,7 +307,7 @@ export default function Home() {
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.039660419615!2d-1.736580126491017!3d7.1214021159296985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfda532df5a85d41%3A0x8d2f6e8926a18c60!2sKUMBISALY%20HERITAGE%20HOTEL%20AND%20RESTAURANT!5e0!3m2!1sen!2sgh!4v1769227373317!5m2!1sen!2sgh"
               width="100%"
               height="100%"
-              style={{ border: 0 }}
+              className="border-0"
               title="Kumbisaly Location Map"
               allowFullScreen
               loading="lazy"

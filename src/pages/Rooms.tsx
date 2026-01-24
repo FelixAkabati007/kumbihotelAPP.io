@@ -23,8 +23,7 @@ export default function Rooms() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
+    let isMounted = true;
     const params = new URLSearchParams();
     if (roomType) params.set("roomType", roomType);
     if (status) params.set("status", status);
@@ -32,10 +31,12 @@ export default function Rooms() {
     setIsLoading(true);
     setError(null);
 
-    fetch(`/api/rooms?${params.toString()}`, { signal })
+    fetch(`/api/rooms?${params.toString()}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((json: Room[] | RoomResponse) => {
-        setRooms(Array.isArray(json) ? json : json?.data || []);
+        if (isMounted) {
+          setRooms(Array.isArray(json) ? json : json?.data || []);
+        }
       })
       .catch((err) => {
         if (err.name !== "AbortError") {
@@ -43,12 +44,14 @@ export default function Rooms() {
         }
       })
       .finally(() => {
-        if (!signal.aborted) {
+        if (isMounted) {
           setIsLoading(false);
         }
       });
 
-    return () => controller.abort();
+    return () => {
+      isMounted = false;
+    };
   }, [roomType, status]);
 
   const getStatusColor = (status: Room["status"]) => {
