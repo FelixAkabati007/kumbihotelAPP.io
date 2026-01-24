@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Home from "./pages/Home";
+import About from "./pages/About";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Rooms from "./pages/Rooms";
@@ -55,6 +56,9 @@ function App() {
               </span>
             </Link>
             <div className="space-x-4">
+              <Link to="/about" className="text-gray-600 hover:text-gray-900">
+                About
+              </Link>
               <Link to="/rooms" className="text-gray-600 hover:text-gray-900">
                 Rooms
               </Link>
@@ -103,6 +107,7 @@ function App() {
         <main className="flex-grow relative z-10">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
             <Route
               path="/login"
               element={
