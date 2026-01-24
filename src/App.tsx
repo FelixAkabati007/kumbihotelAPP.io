@@ -19,6 +19,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   const { user, logout } = useAuthStore();
   const [contactNumber, setContactNumber] = useState("+233535975422");
+  const navFx =
+    "relative inline-block group text-gray-600 hover:text-gray-900 transition-transform duration-300 ease-out hover:scale-[1.03] " +
+    "before:content-[''] before:absolute before:left-0 before:-bottom-1 before:h-[2px] before:w-0 before:bg-gradient-to-r before:from-yellow-500 before:via-orange-500 before:to-pink-500 before:transition-all before:duration-500 group-hover:before:w-full";
 
   useEffect(() => {
     const fetchSettings = () => {
@@ -56,50 +59,35 @@ function App() {
               </span>
             </Link>
             <div className="space-x-4">
-              <Link to="/" className="text-gray-600 hover:text-gray-900">
+              <Link to="/" className={navFx}>
                 Home
               </Link>
-              <Link to="/about" className="text-gray-600 hover:text-gray-900">
+              <Link to="/about" className={navFx}>
                 About
               </Link>
-              <Link to="/rooms" className="text-gray-600 hover:text-gray-900">
+              <Link to="/rooms" className={navFx}>
                 Rooms
               </Link>
               {user ? (
                 <>
-                  <Link
-                    to="/bookings"
-                    className="text-gray-600 hover:text-gray-900"
-                  >
+                  <Link to="/bookings" className={navFx}>
                     My Bookings
                   </Link>
                   {["manager", "receptionist"].includes(user.role) && (
-                    <Link
-                      to="/admin"
-                      className="text-gray-600 hover:text-gray-900"
-                    >
+                    <Link to="/admin" className={navFx}>
                       Admin
                     </Link>
                   )}
-                  <button
-                    onClick={logout}
-                    className="text-gray-600 hover:text-gray-900"
-                  >
+                  <button onClick={logout} className={navFx}>
                     Logout
                   </button>
                 </>
               ) : (
                 <>
-                  <Link
-                    to="/login"
-                    className="text-gray-600 hover:text-gray-900"
-                  >
+                  <Link to="/login" className={navFx}>
                     Login
                   </Link>
-                  <Link
-                    to="/register"
-                    className="text-gray-600 hover:text-gray-900"
-                  >
+                  <Link to="/register" className={navFx}>
                     Register
                   </Link>
                 </>
