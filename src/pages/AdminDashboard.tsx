@@ -1,6 +1,7 @@
 import { useEffect, useState, memo } from "react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
+import { MoreVertical, Check, LogIn, LogOut, X } from "lucide-react";
 
 type Booking = {
   id: string;
@@ -44,51 +45,91 @@ const BookingItem = memo(function BookingItem({
     status: "confirmed" | "checked_in" | "checked_out" | "cancelled",
   ) => void;
 }) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <li
       key={booking.id}
-      className="flex justify-between items-center border rounded p-2"
+      className="flex justify-between items-center border rounded p-3 bg-white hover:bg-gray-50 transition-colors"
     >
       <div>
-        <p>ID: {booking.id}</p>
-        <p>Status: {booking.status}</p>
-        <p>Total: GHS {booking.totalAmount}</p>
+        <p className="font-semibold text-gray-800">ID: {booking.id}</p>
+        <p className="text-sm text-gray-600">
+          Status:{" "}
+          <span
+            className={`font-medium ${
+              booking.status === "confirmed"
+                ? "text-green-600"
+                : booking.status === "cancelled"
+                  ? "text-red-600"
+                  : "text-blue-600"
+            }`}
+          >
+            {booking.status}
+          </span>
+        </p>
+        <p className="text-sm text-gray-600">
+          Total: GHS {booking.totalAmount}
+        </p>
       </div>
-      <div className="flex gap-2">
+      <div className="relative">
         <button
-          type="button"
-          aria-label="Confirm booking"
-          className="bg-green-600 text-white px-3 py-1 rounded"
-          onClick={() => onUpdateStatus(booking.id, "confirmed")}
+          onClick={() => setIsOpen(!isOpen)}
+          className="p-2 hover:bg-gray-200 rounded-full transition-colors"
+          aria-label="Actions"
         >
-          Confirm
+          <MoreVertical size={20} className="text-gray-600" />
         </button>
-        {["admin", "manager", "receptionist"].includes(role) && (
+
+        {isOpen && (
           <>
-            <button
-              type="button"
-              aria-label="Check-in booking"
-              className="bg-blue-600 text-white px-3 py-1 rounded"
-              onClick={() => onUpdateStatus(booking.id, "checked_in")}
-            >
-              Check-in
-            </button>
-            <button
-              type="button"
-              aria-label="Check-out booking"
-              className="bg-indigo-600 text-white px-3 py-1 rounded"
-              onClick={() => onUpdateStatus(booking.id, "checked_out")}
-            >
-              Check-out
-            </button>
-            <button
-              type="button"
-              aria-label="Cancel booking"
-              className="bg-red-600 text-white px-3 py-1 rounded"
-              onClick={() => onUpdateStatus(booking.id, "cancelled")}
-            >
-              Cancel
-            </button>
+            <div
+              className="fixed inset-0 z-10"
+              onClick={() => setIsOpen(false)}
+            />
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 border border-gray-100 overflow-hidden">
+              <button
+                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                onClick={() => {
+                  onUpdateStatus(booking.id, "confirmed");
+                  setIsOpen(false);
+                }}
+              >
+                <Check size={16} className="text-green-600" /> Confirm
+              </button>
+              {["admin", "manager", "receptionist"].includes(role) && (
+                <>
+                  <button
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                    onClick={() => {
+                      onUpdateStatus(booking.id, "checked_in");
+                      setIsOpen(false);
+                    }}
+                  >
+                    <LogIn size={16} className="text-blue-600" /> Check-in
+                  </button>
+                  <button
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                    onClick={() => {
+                      onUpdateStatus(booking.id, "checked_out");
+                      setIsOpen(false);
+                    }}
+                  >
+                    <LogOut size={16} className="text-indigo-600" /> Check-out
+                  </button>
+                  <div className="border-t border-gray-100 my-1" />
+                  <button
+                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                    onClick={() => {
+                      onUpdateStatus(booking.id, "cancelled");
+                      setIsOpen(false);
+                    }}
+                  >
+                    <X size={16} /> Cancel
+                  </button>
+                </>
+              )}
+            </div>
           </>
         )}
       </div>
