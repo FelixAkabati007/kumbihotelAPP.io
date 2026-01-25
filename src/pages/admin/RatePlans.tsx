@@ -166,7 +166,7 @@ export default function RatePlans() {
       });
       if (res.ok) {
         const newSeason = await res.json();
-        setSeasons([...seasons, newSeason]);
+        setSeasons((prev) => [...prev, newSeason]);
         setSStart("");
         setSEnd("");
         setSPrice("");

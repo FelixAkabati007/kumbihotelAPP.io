@@ -1,12 +1,110 @@
 import { Router, type Request, type Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 import { db } from "../db/index";
 import { users } from "../db/schema";
-import { eq } from "drizzle-orm";
+import { eq, and, gt } from "drizzle-orm";
 import { registerSchema, loginSchema } from "../validation/auth";
+import { z } from "zod";
 
 const router = Router();
+
+const forgotPasswordSchema = z.object({
+  email: z.string().email(),
+});
+
+const resetPasswordSchema = z.object({
+  token: z.string().min(1),
+  password: z.string().min(6),
+});
+
+router.post("/forgot-password", async (req: Request, res: Response) => {
+  try {
+    const parsed = forgotPasswordSchema.safeParse(req.body);
+    if (!parsed.success) {
+      res.status(400).json({ error: "Invalid email" });
+      return;
+    }
+    const { email } = parsed.data;
+
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+
+    if (!user) {
+      // Don't reveal user existence
+      res.json({ message: "If the email exists, a reset link has been sent." });
+      return;
+    }
+
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    const resetTokenExpiry = new Date(Date.now() + 3600000); // 1 hour
+
+    await db
+      .update(users)
+      .set({
+        resetToken,
+        resetTokenExpiry,
+      })
+      .where(eq(users.id, user.id));
+
+    // In a real app, send email here. For now, log it.
+    console.log(
+      `[MOCK EMAIL] Password reset for ${email}. Token: ${resetToken}. Link: http://localhost:5173/reset-password?token=${resetToken}`
+    );
+
+    res.json({ message: "If the email exists, a reset link has been sent." });
+  } catch (error: unknown) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.post("/reset-password", async (req: Request, res: Response) => {
+  try {
+    const parsed = resetPasswordSchema.safeParse(req.body);
+    if (!parsed.success) {
+      res.status(400).json({ error: "Invalid payload" });
+      return;
+    }
+    const { token, password } = parsed.data;
+
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(
+        and(
+          eq(users.resetToken, token),
+          gt(users.resetTokenExpiry, new Date())
+        )
+      )
+      .limit(1);
+
+    if (!user) {
+      res.status(400).json({ error: "Invalid or expired token" });
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await db
+      .update(users)
+      .set({
+        passwordHash: hashedPassword,
+        resetToken: null,
+        resetTokenExpiry: null,
+      })
+      .where(eq(users.id, user.id));
+
+    res.json({ message: "Password reset successfully" });
+  } catch (error: unknown) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 router.post("/register", async (req: Request, res: Response) => {
   try {

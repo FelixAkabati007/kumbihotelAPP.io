@@ -37,7 +37,13 @@ export default function Login() {
     const json = await res.json();
     if (res.ok) {
       setAuth(json.user, json.token);
-      navigate(from, { replace: true });
+      let target = from;
+      if (target === "/") {
+        if (json.user.role === "admin") target = "/admin";
+        else if (json.user.role === "manager") target = "/manager";
+        else if (json.user.role === "receptionist") target = "/receptionist";
+      }
+      navigate(target, { replace: true });
     } else {
       alert(json.error || "Login failed");
     }
@@ -96,6 +102,14 @@ export default function Login() {
                 {errors.password.message}
               </p>
             )}
+          </div>
+          <div className="flex justify-end">
+            <a
+              href="/forgot-password"
+              className="text-sm text-yellow-600 hover:text-yellow-700 hover:underline"
+            >
+              Forgot Password?
+            </a>
           </div>
           <button
             disabled={isSubmitting}

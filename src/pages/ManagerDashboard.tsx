@@ -208,7 +208,7 @@ const LogsList = memo(function LogsList({ logs }: { logs: AuditLog[] }) {
   );
 });
 
-export default function AdminDashboard() {
+export default function ManagerDashboard() {
   const token = useAuthStore((s) => s.token);
   const user = useAuthStore((s) => s.user);
   const role = user?.role || "";
@@ -305,7 +305,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-6">Manager Dashboard</h1>
       {error && (
         <div className="mb-4 rounded border border-red-300 bg-red-50 text-red-700 p-3">
           {error}
@@ -390,24 +390,14 @@ export default function AdminDashboard() {
                 </Link>
               </li>
               {["admin", "manager"].includes(user?.role || "") && (
-                <>
-                  <li>
-                    <Link
-                      className="text-yellow-700 hover:underline"
-                      to="/admin/settings"
-                    >
-                      Settings
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-yellow-700 hover:underline"
-                      to="/admin/audit-logs"
-                    >
-                      Audit Logs
-                    </Link>
-                  </li>
-                </>
+                <li>
+                  <Link
+                    className="text-yellow-700 hover:underline"
+                    to="/admin/settings"
+                  >
+                    Settings
+                  </Link>
+                </li>
               )}
             </ul>
           </div>
