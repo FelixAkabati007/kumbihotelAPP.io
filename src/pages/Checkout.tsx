@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
+import BackButton from "../components/BackButton";
 
 type Addon = { id: string; name: string; price: string; taxable: number };
 type Room = {
@@ -133,6 +134,7 @@ export default function Checkout() {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white/60 backdrop-blur-sm rounded shadow my-8">
+      <BackButton className="mb-4" />
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Checkout</h1>
 
       {loadingRoom && <p className="text-gray-500">Loading room details...</p>}

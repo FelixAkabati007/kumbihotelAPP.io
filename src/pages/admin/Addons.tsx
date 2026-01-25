@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../../store/authStore";
+import BackButton from "../../components/BackButton";
 
 type Addon = {
   id: string;
@@ -103,6 +104,7 @@ export default function ManageAddons() {
 
   return (
     <div className="container mx-auto p-6">
+      <BackButton to="/admin" />
       <h1 className="text-3xl font-bold mb-6">Manage Add-ons</h1>
 
       {error && (

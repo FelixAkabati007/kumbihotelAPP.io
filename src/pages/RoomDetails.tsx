@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import BackButton from "../components/BackButton";
 
 type Room = {
   id: string;
@@ -57,9 +58,7 @@ export default function RoomDetails() {
     <div className="container mx-auto p-6">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold">Room {room.roomNumber}</h1>
-        <Link to="/rooms" className="text-yellow-700 hover:underline">
-          Back to Rooms
-        </Link>
+        <BackButton to="/rooms" label="Back to Rooms" className="mb-0" />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white/60 backdrop-blur-sm rounded p-4 shadow">

@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "../store/authStore";
+import BackButton from "../components/BackButton";
 
 const schema = z.object({
   fullName: z.string().min(2),
@@ -41,6 +42,7 @@ export default function Register() {
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-140px)]">
       <div className="w-full max-w-md p-8 bg-white/60 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20">
+        <BackButton to="/" label="Back to Home" className="mb-2" />
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
           Create Account
         </h1>

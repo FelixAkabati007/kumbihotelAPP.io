@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../../store/authStore";
+import BackButton from "../../components/BackButton";
 
 type Setting = {
   id: string;
@@ -81,6 +82,7 @@ export default function Settings() {
 
   return (
     <div className="container mx-auto p-6">
+      <BackButton to="/admin" />
       <h1 className="text-3xl font-bold mb-6">Settings</h1>
 
       {message && (

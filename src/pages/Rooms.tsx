@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import BackButton from "../components/BackButton";
 
 type Room = {
   id: string;
@@ -69,6 +70,7 @@ export default function Rooms() {
 
   return (
     <div className="container mx-auto p-6">
+      <BackButton to="/" label="Back to Home" />
       <h1 className="text-3xl font-bold mb-4">Rooms</h1>
 
       {error && (
@@ -155,6 +157,7 @@ export default function Rooms() {
                 </p>
               </div>
               <button
+                type="button"
                 onClick={() => navigate(`/checkout?roomId=${r.id}`)}
                 disabled={r.status !== "available"}
                 className={`w-full py-2 px-4 rounded font-bold text-white transition-colors ${

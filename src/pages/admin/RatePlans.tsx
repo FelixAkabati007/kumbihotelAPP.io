@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../../store/authStore";
+import BackButton from "../../components/BackButton";
 
 type RatePlan = {
   id: string;
@@ -185,6 +186,7 @@ export default function RatePlans() {
 
   return (
     <div className="p-6">
+      <BackButton to="/admin" />
       <h1 className="text-2xl font-bold mb-4">Rate Plans Management</h1>
 
       {error && (

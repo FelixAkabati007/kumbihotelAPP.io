@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../store/authStore";
+import BackButton from "../components/BackButton";
 
 type Booking = {
   id: string;
@@ -28,6 +29,7 @@ export default function MyBookings() {
 
   return (
     <div className="container mx-auto p-6">
+      <BackButton to="/" label="Back to Home" />
       <h1 className="text-3xl font-bold mb-4">My Bookings</h1>
       {error && <p className="text-red-600 mb-3">{error}</p>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

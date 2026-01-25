@@ -1,8 +1,14 @@
 import { Star, MapPin, Heart, Users } from "lucide-react";
+import BackButton from "../components/BackButton";
 
 export default function About() {
   return (
     <div className="container mx-auto p-4 relative z-10">
+      <BackButton
+        to="/"
+        label="Back to Home"
+        className="text-white relative z-20"
+      />
       {/* Header Section (no white background) */}
       <div className="relative h-64 md:h-80 flex items-center justify-center">
         <img
