@@ -22,6 +22,8 @@ import checkoutRoutes from "./routes/checkout";
 import settingsRoutes from "./routes/settings";
 import { initSentry } from "./sentry";
 
+console.log("App imports loaded, configuring app...");
+
 interface RequestWithId extends Request {
   requestId?: string;
 }
@@ -30,6 +32,8 @@ interface RequestWithId extends Request {
 dotenv.config();
 
 const app: express.Application = express();
+
+console.log("Express app created, initializing Sentry...");
 
 initSentry();
 app.disable("x-powered-by");

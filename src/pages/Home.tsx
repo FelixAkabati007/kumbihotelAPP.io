@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Wifi,
   Coffee,
@@ -25,8 +25,11 @@ type Room = {
 export default function Home() {
   const [featuredRooms, setFeaturedRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(true);
+  const didInit = useRef(false);
 
   useEffect(() => {
+    if (didInit.current) return;
+    didInit.current = true;
     let isMounted = true;
     fetch("/api/rooms?limit=3")
       .then((res) => (res.ok ? res.json() : null))

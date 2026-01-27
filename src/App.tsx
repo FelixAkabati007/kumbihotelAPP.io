@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Login from "./pages/Login";
@@ -31,8 +31,11 @@ function App() {
   const navFx =
     "relative inline-block group text-gray-600 hover:text-gray-900 transition-transform duration-300 ease-out hover:scale-[1.03] " +
     "before:content-[''] before:absolute before:left-0 before:-bottom-1 before:h-[2px] before:w-0 before:bg-gradient-to-r before:from-yellow-500 before:via-orange-500 before:to-pink-500 before:transition-all before:duration-500 group-hover:before:w-full";
+  const didInit = useRef(false);
 
   useEffect(() => {
+    if (didInit.current) return;
+    didInit.current = true;
     const fetchSettings = () => {
       fetch("/api/settings/contact_number")
         .then((r) => (r.ok ? r.json() : null))

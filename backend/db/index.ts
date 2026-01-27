@@ -7,15 +7,20 @@ dotenv.config();
 
 if (!process.env.DATABASE_URL) {
   console.error("DATABASE_URL is not set in environment variables");
-  throw new Error("DATABASE_URL is missing");
+  // Do not throw error here to avoid crashing the entire app on import.
+  // Instead, allow the app to start so that routes can handle DB failures gracefully (e.g., fallback to mock data).
 }
 
 console.log(
   `Initializing DB connection (SSL: ${process.env.NODE_ENV === "production"})`,
 );
 
+// Fallback to a dummy connection string if missing, to prevent crash on startup.
+// This allows the app to boot, and queries will fail (and be caught) at runtime.
+const connectionString = process.env.DATABASE_URL || "postgres://user:pass@localhost:5432/db";
+
 export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString,
   max: process.env.PGPOOL_MAX
     ? parseInt(process.env.PGPOOL_MAX, 10)
     : undefined,
@@ -24,7 +29,7 @@ export const pool = new Pool({
     : undefined,
   ssl:
     process.env.NODE_ENV === "production" ||
-    process.env.DATABASE_URL?.includes("neon.tech")
+    connectionString.includes("neon.tech")
       ? { rejectUnauthorized: false }
       : undefined,
 });
