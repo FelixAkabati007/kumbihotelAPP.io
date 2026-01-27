@@ -144,7 +144,7 @@ function App() {
                 className="absolute inset-0 bg-black/50"
                 onClick={() => setMobileOpen(false)}
               />
-              <div className="absolute left-0 top-0 h-full w-4/5 max-w-xs bg-white shadow-xl p-6 flex flex-col">
+              <div className="absolute right-0 top-0 h-full w-4/5 max-w-xs bg-white shadow-xl p-6 flex flex-col">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-lg font-semibold text-yellow-700">
                     Menu
